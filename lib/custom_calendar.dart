@@ -63,6 +63,7 @@ class CustomCalendar {
                 enabledWorkdayColor: enabledWorkdayColor,
                 disabledDate: disabledDate,
                 disabledRoundColor: disabledRoundColor,
+                inversionWorkdayColor: inversionWorkdayColor,
               ),
             ));
 
