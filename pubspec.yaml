@@ -1,0 +1,26 @@
+name: custom_calendar
+description: calendar use a overlay window to select a range of date on mobile.
+version: 1.0.1
+homepage: https://github.com/Evgenestan/calendar
+
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+
+dependencies:
+  intl: ^0.16.1
+  rxdart: ^0.24.1
+  flutter:
+    sdk: flutter
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  pedantic: 1.8.0+1
+
+flutter:
+
+  uses-material-design: true
+
+
