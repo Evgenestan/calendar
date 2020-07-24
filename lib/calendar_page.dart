@@ -48,6 +48,10 @@ class _CalendarPageState extends State<CalendarPage> {
   List<Widget> choiceWidget = [];
   Map<int, Color> colorChoiceWidget = {};
 
+//  Widget _build<ЛОГИЧЕСКОЕ НАЗВАНИЕ ТВОЕГО ВИДЖЕТА> {
+//    return ТВОЙ ВИДЖЕТ;
+//  }
+
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -83,19 +87,11 @@ class _CalendarPageState extends State<CalendarPage> {
                         maxLines: 1,
                         textAlign: TextAlign.start,
                         text: TextSpan(children: [
+                          // Стоит выносить отдельно, так ты усложняешь чтение
+                          // Хотя бы в виде функции _build<ЛОГИЧЕСКОЕ НАЗВАНИЕ ТВОЕГО ВИДЖЕТА>
                           TextSpan(
-                              text: DateFormat.MMM('ru')
-                                      .format(DateTime.now())
-                                      .substring(0, 1)
-                                      .toUpperCase() +
-                                  DateFormat.MMM('ru')
-                                      .format(DateTime.now())
-                                      .substring(1),
-                              style: widget.blackSmallText),
-                          TextSpan(
-                              text:
-                                  ' ${DateFormat.y('ru').format(DateTime.now())}',
-                              style: widget.greenSmallText),
+                              text: DateFormat.MMM('ru').format(DateTime.now()).substring(0, 1).toUpperCase() + DateFormat.MMM('ru').format(DateTime.now()).substring(1), style: widget.blackSmallText),
+                          TextSpan(text: ' ${DateFormat.y('ru').format(DateTime.now())}', style: widget.greenSmallText),
                         ]),
                       ),
                     ),
@@ -108,8 +104,7 @@ class _CalendarPageState extends State<CalendarPage> {
                         physics: const NeverScrollableScrollPhysics(),
                         slivers: [
                           SliverGrid(
-                            gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
+                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 7,
                               childAspectRatio: 308 / 290,
                             ),
@@ -120,9 +115,7 @@ class _CalendarPageState extends State<CalendarPage> {
                                   height: 40,
                                   alignment: Alignment.center,
                                   child: Text(
-                                    DateFormat.E('ru')
-                                        .format(date[index].dateTime)
-                                        .toUpperCase(),
+                                    DateFormat.E('ru').format(date[index].dateTime).toUpperCase(),
                                     style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w600,
@@ -150,37 +143,30 @@ class _CalendarPageState extends State<CalendarPage> {
                             physics: const NeverScrollableScrollPhysics(),
                             slivers: [
                               SliverGrid(
-                                gridDelegate:
-                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 7,
                                   childAspectRatio: 308 / 280,
                                 ),
                                 delegate: SliverChildBuilderDelegate(
+                                  // Тоже самое с вынесением
                                   (BuildContext context, int index) {
                                     Color setColor() {
-                                      if (date[index]
-                                          .dateTime
-                                          .isBefore(DateTime.now())) {
+                                      if (date[index].dateTime.isBefore(DateTime.now())) {
                                         return widget.disabledWorkdayColor;
                                       }
-                                      if (choice[index] &&
-                                          !date[index].isHoliday) {
+                                      if (choice[index] && !date[index].isHoliday) {
                                         return widget.inversionWorkdayColor;
                                       }
-                                      if (choice[index] &&
-                                          date[index].isHoliday) {
+                                      if (choice[index] && date[index].isHoliday) {
                                         return widget.inversionHolidayColor;
                                       }
-                                      if (date[index].isHoliday &&
-                                          date[index].isDisabled) {
+                                      if (date[index].isHoliday && date[index].isDisabled) {
                                         return widget.disabledHolidayColor;
                                       }
-                                      if (!date[index].isHoliday &&
-                                          date[index].isDisabled) {
+                                      if (!date[index].isHoliday && date[index].isDisabled) {
                                         return widget.disabledWorkdayColor;
                                       }
-                                      if (date[index].isHoliday &&
-                                          !date[index].isDisabled) {
+                                      if (date[index].isHoliday && !date[index].isDisabled) {
                                         return widget.enabledHolidayColor;
                                       }
                                       return widget.enabledWorkdayColor;
@@ -200,8 +186,7 @@ class _CalendarPageState extends State<CalendarPage> {
                                             height: 40,
                                             alignment: Alignment.center,
                                             child: Text(
-                                              DateFormat.d()
-                                                  .format(date[index].dateTime),
+                                              DateFormat.d().format(date[index].dateTime),
                                               style: TextStyle(
                                                 fontSize: 16,
                                                 fontWeight: FontWeight.w600,
@@ -232,8 +217,7 @@ class _CalendarPageState extends State<CalendarPage> {
   }
 
   void dayOnWeek() {
-    final DateTime date =
-        DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+    final DateTime date = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
     int weekDay = date.weekday;
     weekDay = (weekDay - 1) * -1;
     initDate = date.add(Duration(days: weekDay));
@@ -271,8 +255,7 @@ class _CalendarPageState extends State<CalendarPage> {
 
     for (int j = 0; j < 6; j++) {
       for (var i = 0; i < daysInWeek; i++) {
-        final DateTime dateTime =
-            initDate.add(Duration(days: (daysInWeek * j) + i));
+        final DateTime dateTime = initDate.add(Duration(days: (daysInWeek * j) + i));
         date.add(Day(dateTime));
       }
     }
@@ -285,6 +268,7 @@ class _CalendarPageState extends State<CalendarPage> {
     super.initState();
   }
 
+  // Эту тоже можно разбить на несколько
   void setChoice(int number) {
     void setRange(int min, int max) {
       for (int i = min; i <= max; i++) {
@@ -344,6 +328,7 @@ class _CalendarPageState extends State<CalendarPage> {
     }
   }
 
+  // Довольно больная функция получилась, разбей ее на несколько
   List<Widget> setChoiceWidget(int start, [int end]) {
     final List<Widget> list = [];
     if (end == null) {
@@ -352,9 +337,7 @@ class _CalendarPageState extends State<CalendarPage> {
           height: 40,
           width: 40,
           decoration: BoxDecoration(
-            color: colorChoiceWidget[i] == null
-                ? Colors.transparent
-                : colorChoiceWidget[i],
+            color: colorChoiceWidget[i] == null ? Colors.transparent : colorChoiceWidget[i],
             borderRadius: const BorderRadius.all(Radius.circular(22.5)),
           ),
         ));
@@ -366,12 +349,8 @@ class _CalendarPageState extends State<CalendarPage> {
             height: 40,
             width: 44,
             decoration: BoxDecoration(
-              color: colorChoiceWidget[i] == null
-                  ? Colors.transparent
-                  : colorChoiceWidget[i],
-              borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(22.5),
-                  bottomLeft: Radius.circular(22.5)),
+              color: colorChoiceWidget[i] == null ? Colors.transparent : colorChoiceWidget[i],
+              borderRadius: const BorderRadius.only(topLeft: Radius.circular(22.5), bottomLeft: Radius.circular(22.5)),
             ),
           ));
         }
@@ -381,9 +360,7 @@ class _CalendarPageState extends State<CalendarPage> {
               height: 40,
               width: 40,
               decoration: BoxDecoration(
-                color: colorChoiceWidget[i] == null
-                    ? Colors.transparent
-                    : colorChoiceWidget[i],
+                color: colorChoiceWidget[i] == null ? Colors.transparent : colorChoiceWidget[i],
                 borderRadius: const BorderRadius.all(Radius.circular(30)),
               ),
             ));
@@ -392,12 +369,8 @@ class _CalendarPageState extends State<CalendarPage> {
               height: 40,
               width: 44,
               decoration: BoxDecoration(
-                color: colorChoiceWidget[i] == null
-                    ? Colors.transparent
-                    : colorChoiceWidget[i],
-                borderRadius: const BorderRadius.only(
-                    topRight: Radius.circular(30),
-                    bottomRight: Radius.circular(30)),
+                color: colorChoiceWidget[i] == null ? Colors.transparent : colorChoiceWidget[i],
+                borderRadius: const BorderRadius.only(topRight: Radius.circular(30), bottomRight: Radius.circular(30)),
               ),
             ));
           }
@@ -408,12 +381,8 @@ class _CalendarPageState extends State<CalendarPage> {
               height: 40,
               width: 44,
               decoration: BoxDecoration(
-                color: colorChoiceWidget[i] == null
-                    ? Colors.transparent
-                    : colorChoiceWidget[i],
-                borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(30),
-                    bottomLeft: Radius.circular(30)),
+                color: colorChoiceWidget[i] == null ? Colors.transparent : colorChoiceWidget[i],
+                borderRadius: const BorderRadius.only(topLeft: Radius.circular(30), bottomLeft: Radius.circular(30)),
               ),
             ));
           }
@@ -422,12 +391,8 @@ class _CalendarPageState extends State<CalendarPage> {
               height: 40,
               width: 44,
               decoration: BoxDecoration(
-                color: colorChoiceWidget[i] == null
-                    ? Colors.transparent
-                    : colorChoiceWidget[i],
-                borderRadius: const BorderRadius.only(
-                    topRight: Radius.circular(30),
-                    bottomRight: Radius.circular(30)),
+                color: colorChoiceWidget[i] == null ? Colors.transparent : colorChoiceWidget[i],
+                borderRadius: const BorderRadius.only(topRight: Radius.circular(30), bottomRight: Radius.circular(30)),
               ),
             ));
           }
@@ -436,9 +401,7 @@ class _CalendarPageState extends State<CalendarPage> {
               height: 40,
               width: 44,
               decoration: BoxDecoration(
-                color: colorChoiceWidget[i] == null
-                    ? Colors.transparent
-                    : colorChoiceWidget[i],
+                color: colorChoiceWidget[i] == null ? Colors.transparent : colorChoiceWidget[i],
               ),
             ));
           }
